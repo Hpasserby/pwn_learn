@@ -45,8 +45,9 @@
                 bck->fd = bin;
 */
 
-由以上代码可知，因为要检查倒数第二个chunk的fd是否为倒数第一个chunk，所以我们需要构造两个fake_chunk,让fake_chunk2帮助fake_chunk1绕过检查，并被分配出来，fake_chunk的地址由自己决定，所以可以实现任意写
+由以上代码可知，因为要检查倒数第二个chunk的fd是否为倒数第一个chunk，所以我们需要构造两个fake_chunk,让fake_chunk_2帮助fake_chunk_1绕过检查，并被分配出来，fake_chunk的地址由自己决定，所以可以实现任意写
 
 注意:
 	从small_bin中分配chunk是从最后一个开始分配的
+	fake_chunk_2的bk不重要，它帮助fake_chunk_1通过检查时不需要检查bk，当然也可以将small_bin填上去，不过没必要，但是若企图分配它确没有适当的bk，会报错。
 	free的small_chunk最开始是放进unsorted_bin的，当我们再申请一块内存且无法被small_bin和unsorted_bin响应时，才会将之前free的small_chunk放回small_bin
